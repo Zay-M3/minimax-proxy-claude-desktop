@@ -38,37 +38,16 @@ $env:MINIMAX_API_KEY = "tu-api-key-aqui"
 
 Para persistir la key, agrégala a tu perfil de shell (~/.bashrc, ~/.zshrc) o configura la variable de entorno en tu sistema.
 
-### 3. Configurar Claude Desktop
+### 3. Activar el proxy
 
-Abre el archivo de configuración:
-- **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
-- **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
-- **Linux:** `~/.config/Claude/claude_desktop_config.json`
+Ejecuta el script correspondiente a tu sistema operativo.
 
-Agrega estas líneas:
-
-```json
-{
-  "enableClaudeDesktopAPI": true,
-  "apiKeys": {
-    "claude": "sk-local-minimax"
-  }
-}
-```
-
-Para usar un modelo específico, selecciónalo en el menú de modelos de Claude Desktop:
-- `claude-opus-5` - MiniMax-M3
-- `claude-sonnet-5` - MiniMax-M2.7-highspeed
-- `claude-haiku-4-5` - MiniMax-M2.7
-
-## Uso
-
-### Windows (PowerShell)
+**Windows (PowerShell):**
 ```powershell
 .\start-minimax-proxy.ps1
 ```
 
-### Linux/macOS
+**Linux/macOS:**
 ```bash
 chmod +x start-minimax-proxy.sh
 ./start-minimax-proxy.sh
@@ -76,10 +55,27 @@ chmod +x start-minimax-proxy.sh
 
 El proxy estará disponible en `http://localhost:4000`.
 
+### 4. Configurar Claude Desktop
+
+1. Activa el **Modo Desarrollador** en Claude Desktop
+2. Ve a **Proveedores de terceros**
+3. Activa la opción **Gateway**
+4. Configura:
+   - **Base URL:** `http://localhost:4000`
+   - **API Key:** `sk-local-minimax`
+
+5. Selecciona el modelo deseado en el menú de Claude Desktop:
+   - `claude-opus-5` - MiniMax-M3
+   - `claude-sonnet-5` - MiniMax-M2.7-highspeed
+   - `claude-haiku-4-5` - MiniMax-M2.7
+
 ## Solución de problemas
 
+### Error de conexión
+Verifica que el proxy esté corriendo (`http://localhost:4000`).
+
 ### Error: Invalid model name
-Verifica que el modelo seleccionado en Claude Desktop sea uno de los listados arriba (deben empezar con `claude-`).
+Verifica que el modelo seleccionado en Claude Desktop sea uno de los listados arriba.
 
 ### Error: falta MINIMAX_API_KEY
 Asegúrate de tener la variable de entorno configurada antes de ejecutar el script.
