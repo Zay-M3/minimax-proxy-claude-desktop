@@ -1,0 +1,21 @@
+model_list:
+  - model_name: claude-sonnet-4-5          # el nombre que Claude Desktop exige (claude-*)
+    litellm_params:
+      model: anthropic/MiniMax-M3          # lo que realmente se manda a MiniMax
+      api_base: https://api.minimax.io/anthropic
+      api_key: os.environ/MINIMAX_API_KEY
+
+  - model_name: minimax-text-01           # MiniMax Text 2.7 normal
+    litellm_params:
+      model: anthropic/MiniMax-Text-01
+      api_base: https://api.minimax.io/anthropic
+      api_key: os.environ/MINIMAX_API_KEY
+
+  - model_name: minimax-text-01-highspeed  # MiniMax Text 2.7 high-speed
+    litellm_params:
+      model: anthropic/MiniMax-Text-01-High
+      api_base: https://api.minimax.io/anthropic
+      api_key: os.environ/MINIMAX_API_KEY
+
+general_settings:
+  master_key: sk-local-minimax             # esta es la "Gateway API key" que pondrás en Desktop
