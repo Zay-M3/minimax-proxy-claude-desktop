@@ -1,14 +1,14 @@
 # MiniMax Proxy para Claude Desktop
 
-Proxy local que permite usar modelos MiniMax con Claude Desktop mediante litellm.
+**Objetivo:** Usar modelos MiniMax como modelos Anthropic en la UI de Claude Desktop, sin costo de suscripción.
 
 ## Modelos Disponibles
 
-| Nombre en Claude Desktop | Modelo MiniMax | Descripción |
-|------------------------|----------------|-------------|
-| `claude-sonnet-4-5` | MiniMax-M3 | Modelo principal compatible con Claude |
-| `minimax-text-01` | MiniMax-Text-01 | MiniMax Text 2.7 normal |
-| `minimax-text-01-highspeed` | MiniMax-Text-01-High | MiniMax Text 2.7 alta velocidad |
+| Nombre en Claude Desktop | Modelo MiniMax |
+|------------------------|----------------|
+| `claude-opus-5` | MiniMax-M3 |
+| `claude-sonnet-5` | MiniMax-M2.7-highspeed |
+| `claude-haiku-4-5` | MiniMax-M2.7 |
 
 ## Requisitos
 
@@ -18,7 +18,7 @@ Proxy local que permite usar modelos MiniMax con Claude Desktop mediante litellm
 
 ## Instalación
 
-### 1. Instalar dependencias
+### 1. Instalar litellm
 
 ```bash
 pip install litellm
@@ -40,25 +40,26 @@ Para persistir la key, agrégala a tu perfil de shell (~/.bashrc, ~/.zshrc) o co
 
 ### 3. Configurar Claude Desktop
 
-Agrega esto en la configuración de Claude Desktop:
+Abre el archivo de configuración:
+- **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+- **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Linux:** `~/.config/Claude/claude_desktop_config.json`
+
+Agrega estas líneas:
 
 ```json
 {
-  "enable Claude Desktop API": true,
-  "API keys": {
+  "enableClaudeDesktopAPI": true,
+  "apiKeys": {
     "claude": "sk-local-minimax"
-  },
-  "Autonomous Flight": {
-    "custom": {
-      "model": "claude-sonnet-4-5"
-    }
   }
 }
 ```
 
-Para usar otro modelo, cambia el valor de `model`:
-- `minimax-text-01` - MiniMax Text 2.7 normal
-- `minimax-text-01-highspeed` - MiniMax Text 2.7 alta velocidad
+Para usar un modelo específico, selecciónalo en el menú de modelos de Claude Desktop:
+- `claude-opus-5` - MiniMax-M3
+- `claude-sonnet-5` - MiniMax-M2.7-highspeed
+- `claude-haiku-4-5` - MiniMax-M2.7
 
 ## Uso
 
@@ -75,20 +76,10 @@ chmod +x start-minimax-proxy.sh
 
 El proxy estará disponible en `http://localhost:4000`.
 
-## Configuración avanzada
-
-Edita `config.yaml` para:
-- Agregar más modelos
-- Cambiar el puerto
-- Modificar la master key
-
 ## Solución de problemas
+
+### Error: Invalid model name
+Verifica que el modelo seleccionado en Claude Desktop sea uno de los listados arriba (deben empezar con `claude-`).
 
 ### Error: falta MINIMAX_API_KEY
 Asegúrate de tener la variable de entorno configurada antes de ejecutar el script.
-
-### Error de certificado SSL
-El script automáticamente configura los certificados. Si persiste, verifica que tienes `certifi` instalado:
-```bash
-pip install certifi
-```

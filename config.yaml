@@ -1,19 +1,19 @@
 model_list:
-  - model_name: claude-sonnet-4-5          # el nombre que Claude Desktop exige (claude-*)
+  - model_name: claude-opus-5          # el nombre que Claude Desktop exige (claude-*)
     litellm_params:
       model: anthropic/MiniMax-M3          # lo que realmente se manda a MiniMax
       api_base: https://api.minimax.io/anthropic
       api_key: os.environ/MINIMAX_API_KEY
 
-  - model_name: minimax-text-01           # MiniMax Text 2.7 normal
+  - model_name: claude-sonnet-5         # MiniMax Text 2.7 normal
     litellm_params:
-      model: anthropic/MiniMax-Text-01
+      model: anthropic/MiniMax-M2.7-highspeed
       api_base: https://api.minimax.io/anthropic
       api_key: os.environ/MINIMAX_API_KEY
 
-  - model_name: minimax-text-01-highspeed  # MiniMax Text 2.7 high-speed
+  - model_name: claude-haiku-4-5  # MiniMax Text 2.7 high-speed
     litellm_params:
-      model: anthropic/MiniMax-Text-01-High
+      model: anthropic/MiniMax-M2.7
       api_base: https://api.minimax.io/anthropic
       api_key: os.environ/MINIMAX_API_KEY
 
