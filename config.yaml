@@ -1,21 +1,42 @@
 model_list:
+  # MiniMax M3.1-Flash-Preview tiene 1M real, pero Claude Code deja crecer la sesion
+  # hasta ~95% de la ventana (950K) y ADEMAS pide max_tokens=128000 para la respuesta
+  # => 950K + 128K = 1.078M > 1M => MiniMax responde "context window exceeds limit".
+  # La compactacion tampoco ayuda: manda el mismo contexto oversized y vuelve a fallar.
+  # Fix: declarar un max_input_tokens holgado para que Claude Code compacte ANTES del muro.
   - model_name: claude-opus-5          # el nombre que Claude Desktop exige (claude-*)
     litellm_params:
-      model: anthropic/MiniMax-M3          # lo que realmente se manda a MiniMax
+      model: anthropic/MiniMax-M3.1-Flash-Preview          # lo que realmente se manda a MiniMax
       api_base: https://api.minimax.io/anthropic
       api_key: os.environ/MINIMAX_API_KEY
+    model_info:
+      max_input_tokens: 600000         # holgado: 600K + 128K output = 728K < 1M real
+      max_output_tokens: 128000
 
   - model_name: claude-sonnet-5         # MiniMax Text 2.7 normal
     litellm_params:
-      model: anthropic/MiniMax-M2.7-highspeed
+      model: anthropic/MiniMax-M3.1-Flash-Preview
       api_base: https://api.minimax.io/anthropic
       api_key: os.environ/MINIMAX_API_KEY
+    model_info:
+      max_input_tokens: 600000
+      max_output_tokens: 128000
 
   - model_name: claude-haiku-4-5  # MiniMax Text 2.7 high-speed
     litellm_params:
-      model: anthropic/MiniMax-M2.7
+      model: anthropic/MiniMax-M3.1-Flash-Preview
       api_base: https://api.minimax.io/anthropic
       api_key: os.environ/MINIMAX_API_KEY
+    model_info:
+      max_input_tokens: 200000
+      max_output_tokens: 64000
 
 general_settings:
   master_key: sk-local-minimax             # esta es la "Gateway API key" que pondrás en Desktop
+  # Drop unsupported params (like thinking) automatically so MiniMax doesn't waste time
+  drop_params: true
+  # Allow browser clients (Amica runs on http://localhost:3000) to call the
+  # proxy directly without CORS preflight failures.
+  cors:
+    - "*"  # dev only — tighten for production
+  cors_allow_credentials: true
